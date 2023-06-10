@@ -17,7 +17,9 @@
                 <button type="submit">Войти</button>
                 <a href="./registration.php">Регистрация</a>
             </form>
+            <div id="loader"></div>
         </div>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>
