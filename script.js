@@ -36,9 +36,6 @@ function checkRegister(event) {
     const pwd = pwdInput.value;
     const pwd2 = pwd2Input.value;
 
-    // const errorName = document.getElementById("errorName");
-    // const successMessage = document.getElementById("successMessage");
-
     if (!validateInput(name) || name.length === 0) {
         let err = document.getElementById('login-err');
         err.classList.add('error-message-vis');
@@ -92,5 +89,46 @@ function checkRegister(event) {
             hideLoader();
         });
     }
+
+}
+
+function checkLogin(event) {
+    event.preventDefault();
+    showLoader();
+    const nameInput = document.getElementById("login");
+    const pwdInput = document.getElementById("pwd");
+
+    const name = nameInput.value;
+    const pwd = pwdInput.value;
+
+
+    const data = {
+        login: name,
+        pwd: pwd
+    }
+
+    fetch('login_handler.php', {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json; charset=utf-8'
+        },
+        'body': JSON.stringify(data)
+    }).then(function (response) {
+        return response.text();
+    }).then(function (data) {
+        data = JSON.parse(data);
+        if (data.success) {
+            // Save the session ID in localStorage
+            localStorage.setItem('session_id', data.session_id);
+            window.location.href = 'profile.php';
+        } else {
+            document.getElementById('login-err').classList.add('error-message-vis');
+        }
+
+    }).catch(function (error) {
+        console.error('Error:', error);
+    }).finally(function () {
+        hideLoader();
+    });
 
 }
